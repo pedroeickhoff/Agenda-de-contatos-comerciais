@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cadastro de Contatos</title>
+  </head>
+  <body>
+    <h1>Cadastro de Contatos</h1>
+
+    <input type="text" id="nome" placeholder="Nome" required /><br />
+    <input type="text" id="email" placeholder="Email" required /><br />
+    <input
+      type="text"
+      id="cep"
+      placeholder="CEP"
+      required
+      onblur="buscarCep()"
+    /><br />
+    <input type="text" id="rua" placeholder="Rua" required /><br />
+    <input type="text" id="bairro" placeholder="Bairro" required /><br />
+    <input type="text" id="numero" placeholder="Numero" required /><br />
+    <input type="text" id="empresa" placeholder="Empresa" required /><br />
+    <input type="text" id="cargo" placeholder="Cargo" required /><br />
+    <button onclick="addContato()">Cadastrar</button>
+
+    <h2>Contatos Cadastrados</h2>
+    <ul id="contatoList"></ul>
+
+    <script>
+      const apiUrl = "http://localhost:8080/contatos";
+
+      function addContato() {
+        const contato = {
+          nome: document.getElementById("nome").value,
+          email: document.getElementById("email").value,
+          cep: document.getElementById("cep").value,
+          empresa: document.getElementById("empresa").value,
+          cargo: document.getElementById("cargo").value,
+          rua: document.getElementById("rua").value,
+          bairro: document.getElementById("bairro").value,
+          numero: document.getElementById("numero").value,
+        };
+
+        fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(contato),
+        }).then(() => {
+          document.getElementById("nome").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("cep").value = "";
+          document.getElementById("empresa").value = "";
+          document.getElementById("cargo").value = "";
+          document.getElementById("rua").value = "";
+          document.getElementById("bairro").value = "";
+          document.getElementById("numero").value = "";
+          loadContatos();
+        });
+      }
+
+      function loadContatos() {
+        fetch(apiUrl)
+          .then((res) => res.json())
+          .then((data) => {
+            const list = document.getElementById("contatoList");
+            list.innerHTML = "";
+            data.forEach((contato) => {
+              const li = document.createElement("li");
+              li.textContent = `Nome: ${contato.nome}, Empresa: ${contato.empresa}, Cargo: ${contato.cargo}, Email: ${contato.email}, CEP: ${contato.cep}, Rua: ${contato.rua}, Bairro: ${contato.bairro}, Numero: ${contato.numero}`;
+              list.appendChild(li);
+            });
+          });
+      }
+
+      function buscarCep() {
+        const cep = document.getElementById("cep").value.replace(/\D/g, "");
+
+        if (cep.length !== 8) {
+          alert("CEP inválido. Deve conter 8 dígitos.");
+          return;
+        }
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.erro) {
+              alert("CEP não encontrado.");
+              return;
+            }
+
+            document.getElementById("rua").value = data.logradouro;
+            document.getElementById("bairro").value = data.bairro;
+          })
+          .catch(() => {
+            alert("Erro ao buscar o CEP.");
+          });
+      }
+
+      loadContatos();
+    </script>
+  </body>
+</html>
