@@ -3,95 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <title>Contatos</title>
-    <style>
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f4f4f4;
-        padding: 40px;
-        max-width: 900px;
-        margin: auto;
-      }
-      h1 {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      .empresa-buttons {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .empresa-buttons button {
-        margin: 5px;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-      }
-      .empresa-buttons button:hover {
-        background-color: #0056b3;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-      }
-      li {
-        background-color: white;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-      .voltar {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 5px;
-        font-size: 1em;
-        cursor: pointer;
-        z-index: 1000;
-      }
-
-      .voltar:hover {
-        background-color: #c82333;
-      }
-
-      li p {
-        margin: 4px 0;
-        font-size: 1em;
-      }
-
-      .edit,
-      .delete {
-        padding: 8px 16px;
-        font-size: 0.9em;
-      }
-
-      button.edit {
-        background-color: #ffc107;
-        color: white;
-      }
-      button.delete {
-        background-color: #dc3545;
-        color: white;
-      }
-      button.edit:hover {
-        background-color: #e0a800;
-      }
-      button.delete:hover {
-        background-color: #c82333;
-      }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <button onclick="voltar()" class="voltar">Voltar</button>
-    <h1>Contatos Cadastrados</h1>
-    <div class="empresa-buttons" id="empresaButtons"></div>
-    <ul id="contatoList"></ul>
+    <div class="container">
+      <button onclick="voltar()" class="voltar">Voltar</button>
+      <h1>Contatos Cadastrados</h1>
+
+      <!-- Botões de filtro por empresa -->
+      <div class="empresa-buttons" id="empresaButtons"></div>
+
+      <!-- Lista de contatos -->
+      <ul id="contatoList"></ul>
+    </div>
 
     <script>
       const apiUrl = "http://localhost:8080/contatos/ver";
@@ -147,12 +71,12 @@
           const infoContainer = document.createElement("div");
           infoContainer.className = "info-container";
           infoContainer.innerHTML = `
-      <p><strong>Nome:</strong> ${contato.nome}</p>
-      <p><strong>Empresa:</strong> ${contato.empresa}</p>
-      <p><strong>Cargo:</strong> ${contato.cargo}</p>
-      <p><strong>Email:</strong> ${contato.email}</p>
-      <p><strong>Endereço:</strong> ${contato.rua} ${contato.numero}, ${contato.bairro} - ${contato.cep}</p>
-    `;
+          <p><strong>Nome:</strong> ${contato.nome}</p>
+          <p><strong>Empresa:</strong> ${contato.empresa}</p>
+          <p><strong>Cargo:</strong> ${contato.cargo}</p>
+          <p><strong>Email:</strong> ${contato.email}</p>
+          <p><strong>Endereço:</strong> ${contato.rua} ${contato.numero}, ${contato.bairro} - ${contato.cep}</p>
+        `;
 
           const buttonContainer = document.createElement("div");
           buttonContainer.className = "button-container";

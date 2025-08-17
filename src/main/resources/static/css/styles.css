@@ -1,0 +1,236 @@
+/* Reset e fonte moderna */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Corpo da página */
+body {
+  background: #f2f2f7;
+  color: #1c1c1e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+/* Botão Voltar fixo */
+button.voltar {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #ffd60a;
+  color: #1c1c1e;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+button.voltar:hover {
+  background: #ffcc00;
+}
+
+/* Container principal */
+.container {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Títulos */
+h1,
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Inputs */
+input {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d6;
+  font-size: 16px;
+  background: #f9f9f9;
+  transition: border 0.3s;
+}
+
+input:focus {
+  border-color: #007aff;
+  outline: none;
+  background: #fff;
+}
+
+/* Botões padrão */
+button {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #005ecb;
+}
+
+/* Botões da home */
+.container > div > button {
+  margin: 0 10px;
+}
+
+/* Botões de filtro */
+.empresa-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.empresa-buttons button {
+  background: #e5e5ea;
+  color: #1c1c1e;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.empresa-buttons button:hover {
+  background: #d1d1d6;
+}
+
+/* Lista de contatos em coluna */
+#contatoList {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cartão de contato */
+.contato-item {
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  transition: box-shadow 0.3s;
+}
+
+.contato-item:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Informações do contato */
+.info-container {
+  flex: 1;
+  min-width: 280px;
+}
+
+.info-container p {
+  margin: 6px 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.info-container p span.empresa {
+  color: #007aff;
+  font-weight: 600;
+}
+
+/* Botões de ação com estilo moderno */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-container button {
+  padding: 10px 16px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.button-container button:hover {
+  transform: scale(1.05);
+}
+
+/* Botão Editar: azul moderno */
+button.edit {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: #fff;
+}
+
+button.edit:hover {
+  background: linear-gradient(135deg, #3a9dfc 0%, #00d4fc 100%);
+}
+
+/* Botão Deletar: vermelho vibrante */
+button.delete {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  color: #fff;
+}
+
+button.delete:hover {
+  background: linear-gradient(135deg, #e03e5d 0%, #e03c1d 100%);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  h1,
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .button-container {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
