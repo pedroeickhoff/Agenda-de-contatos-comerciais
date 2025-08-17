@@ -8,22 +8,22 @@ public class ViewController {
 
     @GetMapping("/home.html")
     public String index() {
-        return "home"; // templates/home.html
+        return "home"; 
     }
 
     @GetMapping("/cadastro.html")
     public String cadastro() {
-        return "cadastro"; // templates/cadastro.html
+        return "cadastro"; 
     }
 
     @GetMapping("/contatos.html")
     public String contato() {
-        return "contatos"; // templates/contato.html
+        return "contatos"; 
     }
 
     @GetMapping("/editar.html")
     public String editar() {
-        return "editar"; // templates/editar.html
+        return "editar"; 
     }
 
 }

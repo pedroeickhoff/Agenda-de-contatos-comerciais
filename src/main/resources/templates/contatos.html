@@ -10,15 +10,13 @@
     <div class="container">
       <h1>Contatos Cadastrados</h1>
 
-      <!-- Botões de filtro por empresa -->
       <div class="empresa-buttons" id="empresaButtons"></div>
 
-      <!-- Lista de contatos -->
       <ul id="contatoList"></ul>
     </div>
 
     <script>
-      const apiUrl = "http://localhost:8080/contatos/ver";
+      const apiUrl = "http://192.168.23.129:8080/contatos/ver";
       let todosContatos = [];
 
       function loadContatos() {
