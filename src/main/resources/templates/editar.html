@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <title>Cadastro de Contatos</title>
+    <title>Editar Contato</title>
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
@@ -45,7 +45,7 @@
       button:not(.voltar) {
         width: 100%;
         padding: 12px;
-        background-color: #28a745;
+        background-color: #007bff;
         color: white;
         border: none;
         border-radius: 5px;
@@ -55,86 +55,66 @@
       }
 
       button:not(.voltar):hover {
-        background-color: #218838;
+        background-color: #0056b3;
       }
     </style>
   </head>
   <body>
     <button onclick="voltar()" class="voltar">Voltar</button>
 
-    <h1>Cadastro de Contatos</h1>
+    <h1>Editar Contato</h1>
 
     <input type="text" id="nome" placeholder="Nome" required />
     <input type="text" id="email" placeholder="Email" required />
-    <input
-      type="text"
-      id="cep"
-      placeholder="CEP"
-      required
-      onblur="buscarCep()"
-    />
+    <input type="text" id="cep" placeholder="CEP" required />
     <input type="text" id="rua" placeholder="Rua" required />
     <input type="text" id="bairro" placeholder="Bairro" required />
     <input type="text" id="numero" placeholder="Número" required />
     <input type="text" id="empresa" placeholder="Empresa" required />
     <input type="text" id="cargo" placeholder="Cargo" required />
 
-    <button onclick="addContato()">Cadastrar</button>
+    <button onclick="salvarEdicao()">Salvar</button>
 
     <script>
-      const apiUrl = "http://localhost:8080/cadastro/cadastrar";
+      const apiUrl = "http://localhost:8080/contatos/editar";
+      const contato = JSON.parse(localStorage.getItem("contatoEditando"));
 
-      function addContato() {
-        const contato = {
+      if (contato) {
+        document.getElementById("nome").value = contato.nome;
+        document.getElementById("email").value = contato.email;
+        document.getElementById("cep").value = contato.cep;
+        document.getElementById("rua").value = contato.rua;
+        document.getElementById("bairro").value = contato.bairro;
+        document.getElementById("numero").value = contato.numero;
+        document.getElementById("empresa").value = contato.empresa;
+        document.getElementById("cargo").value = contato.cargo;
+      }
+
+      function salvarEdicao() {
+        const contatoAtualizado = {
+          id: contato.id,
           nome: document.getElementById("nome").value,
           email: document.getElementById("email").value,
           cep: document.getElementById("cep").value,
-          empresa: document.getElementById("empresa").value,
-          cargo: document.getElementById("cargo").value,
           rua: document.getElementById("rua").value,
           bairro: document.getElementById("bairro").value,
           numero: document.getElementById("numero").value,
+          empresa: document.getElementById("empresa").value,
+          cargo: document.getElementById("cargo").value,
         };
 
         fetch(apiUrl, {
-          method: "POST",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(contato),
+          body: JSON.stringify(contatoAtualizado),
         }).then(() => {
-          limparFormulario();
-          alert("Contato cadastrado com sucesso!");
+          alert("Contato atualizado com sucesso!");
+          window.location.href = "contatos.html";
         });
       }
 
-      function limparFormulario() {
-        document
-          .querySelectorAll("input")
-          .forEach((input) => (input.value = ""));
-        window.contatoEditandoId = null;
-      }
-
-      function buscarCep() {
-        const cep = document.getElementById("cep").value.replace(/\D/g, "");
-        if (cep.length !== 8) {
-          alert("CEP inválido. Deve conter 8 dígitos.");
-          return;
-        }
-
-        fetch(`https://viacep.com.br/ws/${cep}/json/`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.erro) {
-              alert("CEP não encontrado.");
-              return;
-            }
-            document.getElementById("rua").value = data.logradouro;
-            document.getElementById("bairro").value = data.bairro;
-          })
-          .catch(() => alert("Erro ao buscar o CEP."));
-      }
-
       function voltar() {
-        window.location.href = "home.html";
+        window.location.href = "contatos.html";
       }
     </script>
   </body>

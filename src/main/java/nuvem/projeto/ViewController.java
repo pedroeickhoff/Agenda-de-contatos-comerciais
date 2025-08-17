@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
 
-    @GetMapping("/")
+    @GetMapping("/home.html")
     public String index() {
         return "home"; // templates/home.html
     }
@@ -20,4 +20,10 @@ public class ViewController {
     public String contato() {
         return "contatos"; // templates/contato.html
     }
+
+    @GetMapping("/editar.html")
+    public String editar() {
+        return "editar"; // templates/editar.html
+    }
+
 }

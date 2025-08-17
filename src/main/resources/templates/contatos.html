@@ -1,51 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
   <head>
+    <meta charset="UTF-8" />
     <title>Contatos</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f4f4f4;
+        padding: 40px;
+        max-width: 900px;
+        margin: auto;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .empresa-buttons {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .empresa-buttons button {
+        margin: 5px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+      .empresa-buttons button:hover {
+        background-color: #0056b3;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        background-color: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .voltar {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        z-index: 1000;
+      }
+
+      .voltar:hover {
+        background-color: #c82333;
+      }
+
+      li p {
+        margin: 4px 0;
+        font-size: 1em;
+      }
+
+      .edit,
+      .delete {
+        padding: 8px 16px;
+        font-size: 0.9em;
+      }
+
+      button.edit {
+        background-color: #ffc107;
+        color: white;
+      }
+      button.delete {
+        background-color: #dc3545;
+        color: white;
+      }
+      button.edit:hover {
+        background-color: #e0a800;
+      }
+      button.delete:hover {
+        background-color: #c82333;
+      }
+    </style>
   </head>
   <body>
+    <button onclick="voltar()" class="voltar">Voltar</button>
     <h1>Contatos Cadastrados</h1>
+    <div class="empresa-buttons" id="empresaButtons"></div>
     <ul id="contatoList"></ul>
 
     <script>
       const apiUrl = "http://localhost:8080/contatos/ver";
+      let todosContatos = [];
 
       function loadContatos() {
         fetch(apiUrl)
           .then((res) => res.json())
           .then((data) => {
-            const list = document.getElementById("contatoList");
-            list.innerHTML = "";
-
-            data.forEach((contato) => {
-              const li = document.createElement("li");
-              li.textContent = `Nome: ${contato.nome}, Empresa: ${contato.empresa}, Cargo: ${contato.cargo}, Email: ${contato.email}`;
-
-              const deleteBtn = document.createElement("button");
-              deleteBtn.textContent = "Deletar";
-              deleteBtn.onclick = () => deleteContato(contato.id);
-
-              const editBtn = document.createElement("button");
-              editBtn.textContent = "Editar";
-              editBtn.onclick = () => {
-                localStorage.setItem(
-                  "contatoEditando",
-                  JSON.stringify(contato)
-                );
-                location.href = "cadastro.html";
-              };
-
-              li.appendChild(editBtn);
-              li.appendChild(deleteBtn);
-              list.appendChild(li);
-            });
+            todosContatos = data;
+            renderEmpresaButtons(data);
+            renderContatos(data);
           });
+      }
+
+      function renderEmpresaButtons(contatos) {
+        const container = document.getElementById("empresaButtons");
+        container.innerHTML = "";
+
+        const empresas = [...new Set(contatos.map((c) => c.empresa))].sort();
+
+        empresas.forEach((empresa) => {
+          const btn = document.createElement("button");
+          btn.textContent = empresa;
+          btn.onclick = () => {
+            const filtrados = todosContatos.filter(
+              (c) => c.empresa === empresa
+            );
+            renderContatos(filtrados);
+          };
+          container.appendChild(btn);
+        });
+
+        const verTodosBtn = document.createElement("button");
+        verTodosBtn.textContent = "Ver Todos (Ordenado por Empresa)";
+        verTodosBtn.onclick = () => {
+          const ordenados = [...todosContatos].sort((a, b) =>
+            a.empresa.localeCompare(b.empresa)
+          );
+          renderContatos(ordenados);
+        };
+        container.appendChild(verTodosBtn);
+      }
+
+      function renderContatos(contatos) {
+        const list = document.getElementById("contatoList");
+        list.innerHTML = "";
+
+        contatos.forEach((contato) => {
+          const li = document.createElement("li");
+          li.className = "contato-item";
+
+          const infoContainer = document.createElement("div");
+          infoContainer.className = "info-container";
+          infoContainer.innerHTML = `
+      <p><strong>Nome:</strong> ${contato.nome}</p>
+      <p><strong>Empresa:</strong> ${contato.empresa}</p>
+      <p><strong>Cargo:</strong> ${contato.cargo}</p>
+      <p><strong>Email:</strong> ${contato.email}</p>
+      <p><strong>Endereço:</strong> ${contato.rua} ${contato.numero}, ${contato.bairro} - ${contato.cep}</p>
+    `;
+
+          const buttonContainer = document.createElement("div");
+          buttonContainer.className = "button-container";
+
+          const editBtn = document.createElement("button");
+          editBtn.textContent = "Editar";
+          editBtn.className = "edit";
+          editBtn.onclick = () => {
+            localStorage.setItem("contatoEditando", JSON.stringify(contato));
+            location.href = "editar.html";
+          };
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "Deletar";
+          deleteBtn.className = "delete";
+          deleteBtn.onclick = () => deleteContato(contato.id);
+
+          buttonContainer.appendChild(editBtn);
+          buttonContainer.appendChild(deleteBtn);
+
+          li.appendChild(infoContainer);
+          li.appendChild(buttonContainer);
+          list.appendChild(li);
+        });
       }
 
       function deleteContato(id) {
         fetch(`${apiUrl}/${id}`, {
           method: "DELETE",
         }).then(() => loadContatos());
+      }
+
+      function voltar() {
+        window.location.href = "home.html";
       }
 
       loadContatos();
