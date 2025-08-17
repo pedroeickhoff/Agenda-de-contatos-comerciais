@@ -35,7 +35,7 @@ public class ContatosController {
         repository.deleteById(id);
     }
 
-    @PutMapping("/contatos/ver/{id}")
+    @PutMapping("/contatos/editar/{id}")
     public ResponseEntity<Contatos> atualizar(@PathVariable Integer id, @RequestBody Contatos atualizado) {
     return repository.findById(id)
         .map(contato -> {
@@ -47,6 +47,7 @@ public class ContatosController {
             contato.setRua(atualizado.getRua());
             contato.setBairro(atualizado.getBairro());
             contato.setNumero(atualizado.getNumero());
+            contato.setTelefone(atualizado.getTelefone());
             repository.save(contato);
             return ResponseEntity.ok(contato);
         })

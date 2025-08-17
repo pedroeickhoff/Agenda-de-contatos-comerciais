@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <button onclick="voltar()" class="voltar">Voltar</button>
+
     <div class="container">
-      <button onclick="voltar()" class="voltar">Voltar</button>
       <h1>Cadastro de Contatos</h1>
 
       <input type="text" id="nome" placeholder="Nome" required />
       <input type="text" id="email" placeholder="Email" required />
+      <input type="text" id="telefone" placeholder="Telefone" required />
       <input
         type="text"
         id="cep"
@@ -32,9 +34,30 @@
       const apiUrl = "http://localhost:8080/cadastro/cadastrar";
 
       function addContato() {
+        const campos = [
+          { id: "nome", label: "Nome" },
+          { id: "email", label: "Email" },
+          { id: "telefone", label: "Telefone" },
+          { id: "cep", label: "CEP" },
+          { id: "rua", label: "Rua" },
+          { id: "bairro", label: "Bairro" },
+          { id: "numero", label: "Número" },
+          { id: "empresa", label: "Empresa" },
+          { id: "cargo", label: "Cargo" },
+        ];
+
+        for (const campo of campos) {
+          const valor = document.getElementById(campo.id).value.trim();
+          if (!valor) {
+            alert(`Por favor, preencha todos os campos`);
+            return;
+          }
+        }
+
         const contato = {
           nome: document.getElementById("nome").value,
           email: document.getElementById("email").value,
+          telefone: document.getElementById("telefone").value,
           cep: document.getElementById("cep").value,
           empresa: document.getElementById("empresa").value,
           cargo: document.getElementById("cargo").value,

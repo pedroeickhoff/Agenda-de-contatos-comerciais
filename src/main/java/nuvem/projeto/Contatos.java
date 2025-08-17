@@ -22,10 +22,11 @@ public class Contatos {
     private String numero;
     private String email;
     private String cargo;
+    private String telefone;
 
     public Contatos() {}
 
-    public Contatos(String nome, String email, String cep, String empresa, String rua, String bairro, String numero, String cargo) {
+    public Contatos(String nome, String email, String cep, String empresa, String rua, String bairro, String numero, String cargo, String telefone) {
         this.nome = nome;
         this.email = email;
         this.cep = cep;
@@ -34,6 +35,7 @@ public class Contatos {
         this.bairro = bairro;
         this.numero = numero;
         this.cargo = cargo;
+        this.telefone = telefone;
     }
 
 
@@ -78,6 +80,14 @@ public class Contatos {
 
     public int getId() {
         return id;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
 }

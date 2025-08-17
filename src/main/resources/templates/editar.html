@@ -6,13 +6,21 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <button onclick="voltar()" class="voltar">Voltar</button>
+
     <div class="container">
-      <button onclick="voltar()" class="voltar">Voltar</button>
       <h1>Editar Contato</h1>
 
       <input type="text" id="nome" placeholder="Nome" required />
       <input type="text" id="email" placeholder="Email" required />
-      <input type="text" id="cep" placeholder="CEP" required />
+      <input type="text" id="telefone" placeholder="Telefone" required />
+      <input
+        type="text"
+        id="cep"
+        placeholder="CEP"
+        required
+        onblur="buscarCep()"
+      />
       <input type="text" id="rua" placeholder="Rua" required />
       <input type="text" id="bairro" placeholder="Bairro" required />
       <input type="text" id="numero" placeholder="Número" required />
@@ -29,6 +37,7 @@
       if (contato) {
         document.getElementById("nome").value = contato.nome;
         document.getElementById("email").value = contato.email;
+        document.getElementById("telefone").value = contato.telefone;
         document.getElementById("cep").value = contato.cep;
         document.getElementById("rua").value = contato.rua;
         document.getElementById("bairro").value = contato.bairro;
@@ -38,10 +47,31 @@
       }
 
       function salvarEdicao() {
+        const campos = [
+          { id: "nome", label: "Nome" },
+          { id: "email", label: "Email" },
+          { id: "telefone", label: "Telefone" },
+          { id: "cep", label: "CEP" },
+          { id: "rua", label: "Rua" },
+          { id: "bairro", label: "Bairro" },
+          { id: "numero", label: "Número" },
+          { id: "empresa", label: "Empresa" },
+          { id: "cargo", label: "Cargo" },
+        ];
+
+        for (const campo of campos) {
+          const valor = document.getElementById(campo.id).value.trim();
+          if (!valor) {
+            alert(`Por favor, preencha todos os campos`);
+            return;
+          }
+        }
+
         const contatoAtualizado = {
           id: contato.id,
           nome: document.getElementById("nome").value,
           email: document.getElementById("email").value,
+          telefone: document.getElementById("telefone").value,
           cep: document.getElementById("cep").value,
           rua: document.getElementById("rua").value,
           bairro: document.getElementById("bairro").value,
@@ -50,7 +80,7 @@
           cargo: document.getElementById("cargo").value,
         };
 
-        fetch(apiUrl, {
+        fetch(`${apiUrl}/${contato.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(contatoAtualizado),
@@ -58,6 +88,26 @@
           alert("Contato atualizado com sucesso!");
           window.location.href = "contatos.html";
         });
+      }
+
+      function buscarCep() {
+        const cep = document.getElementById("cep").value.replace(/\D/g, "");
+        if (cep.length !== 8) {
+          alert("CEP inválido. Deve conter 8 dígitos.");
+          return;
+        }
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.erro) {
+              alert("CEP não encontrado.");
+              return;
+            }
+            document.getElementById("rua").value = data.logradouro;
+            document.getElementById("bairro").value = data.bairro;
+          })
+          .catch(() => alert("Erro ao buscar o CEP."));
       }
 
       function voltar() {

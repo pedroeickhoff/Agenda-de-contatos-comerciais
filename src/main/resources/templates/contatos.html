@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <button onclick="voltar()" class="voltar">Voltar</button>
     <div class="container">
-      <button onclick="voltar()" class="voltar">Voltar</button>
       <h1>Contatos Cadastrados</h1>
 
       <!-- Botões de filtro por empresa -->
@@ -75,6 +75,7 @@
           <p><strong>Empresa:</strong> ${contato.empresa}</p>
           <p><strong>Cargo:</strong> ${contato.cargo}</p>
           <p><strong>Email:</strong> ${contato.email}</p>
+          <p><strong>Telefone:</strong> ${contato.telefone}</p>
           <p><strong>Endereço:</strong> ${contato.rua} ${contato.numero}, ${contato.bairro} - ${contato.cep}</p>
         `;
 
