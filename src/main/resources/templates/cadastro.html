@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
   <head>
+    <meta charset="UTF-8" />
     <title>Cadastro de Contatos</title>
   </head>
   <body>
@@ -17,16 +18,14 @@
     /><br />
     <input type="text" id="rua" placeholder="Rua" required /><br />
     <input type="text" id="bairro" placeholder="Bairro" required /><br />
-    <input type="text" id="numero" placeholder="Numero" required /><br />
+    <input type="text" id="numero" placeholder="Número" required /><br />
     <input type="text" id="empresa" placeholder="Empresa" required /><br />
     <input type="text" id="cargo" placeholder="Cargo" required /><br />
+
     <button onclick="addContato()">Cadastrar</button>
 
-    <h2>Contatos Cadastrados</h2>
-    <ul id="contatoList"></ul>
-
     <script>
-      const apiUrl = "http://localhost:8080/contatos";
+      const apiUrl = "http://localhost:8080/cadastro/cadastrar";
 
       function addContato() {
         const contato = {
@@ -45,35 +44,24 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(contato),
         }).then(() => {
-          document.getElementById("nome").value = "";
-          document.getElementById("email").value = "";
-          document.getElementById("cep").value = "";
-          document.getElementById("empresa").value = "";
-          document.getElementById("cargo").value = "";
-          document.getElementById("rua").value = "";
-          document.getElementById("bairro").value = "";
-          document.getElementById("numero").value = "";
-          loadContatos();
+          limparFormulario();
         });
       }
 
-      function loadContatos() {
-        fetch(apiUrl)
-          .then((res) => res.json())
-          .then((data) => {
-            const list = document.getElementById("contatoList");
-            list.innerHTML = "";
-            data.forEach((contato) => {
-              const li = document.createElement("li");
-              li.textContent = `Nome: ${contato.nome}, Empresa: ${contato.empresa}, Cargo: ${contato.cargo}, Email: ${contato.email}, CEP: ${contato.cep}, Rua: ${contato.rua}, Bairro: ${contato.bairro}, Numero: ${contato.numero}`;
-              list.appendChild(li);
-            });
-          });
+      function limparFormulario() {
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("cep").value = "";
+        document.getElementById("empresa").value = "";
+        document.getElementById("cargo").value = "";
+        document.getElementById("rua").value = "";
+        document.getElementById("bairro").value = "";
+        document.getElementById("numero").value = "";
+        window.contatoEditandoId = null;
       }
 
       function buscarCep() {
         const cep = document.getElementById("cep").value.replace(/\D/g, "");
-
         if (cep.length !== 8) {
           alert("CEP inválido. Deve conter 8 dígitos.");
           return;
@@ -86,7 +74,6 @@
               alert("CEP não encontrado.");
               return;
             }
-
             document.getElementById("rua").value = data.logradouro;
             document.getElementById("bairro").value = data.bairro;
           })
@@ -94,8 +81,6 @@
             alert("Erro ao buscar o CEP.");
           });
       }
-
-      loadContatos();
     </script>
   </body>
 </html>

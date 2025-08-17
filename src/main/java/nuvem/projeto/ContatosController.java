@@ -1,27 +1,58 @@
 package nuvem.projeto;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "*") // Permite chamadas do frontend
+@CrossOrigin(origins = "*")
 public class ContatosController {
 
-    private List<Contatos> listaContatos = new ArrayList<>();
+    @Autowired
+    private ContatosRepository repository;
 
-    @PostMapping("/contatos")
+    @PostMapping("/cadastro/cadastrar")
     public void addContato(@RequestBody Contatos contato) {
-        listaContatos.add(contato);
+        repository.save(contato);
     }
 
-    @GetMapping("/contatos")
+    @GetMapping("/contatos/ver")
     public List<Contatos> getContatos() {
-        return listaContatos;
+        return repository.findAll();
     }
+
+    @DeleteMapping("/contatos/ver/{id}")
+    public void deletar(@PathVariable Integer id) {
+        repository.deleteById(id);
+    }
+
+    @PutMapping("/contatos/ver/{id}")
+    public ResponseEntity<Contatos> atualizar(@PathVariable Integer id, @RequestBody Contatos atualizado) {
+    return repository.findById(id)
+        .map(contato -> {
+            contato.setNome(atualizado.getNome());
+            contato.setEmail(atualizado.getEmail());
+            contato.setCep(atualizado.getCep());
+            contato.setEmpresa(atualizado.getEmpresa());
+            contato.setCargo(atualizado.getCargo());
+            contato.setRua(atualizado.getRua());
+            contato.setBairro(atualizado.getBairro());
+            contato.setNumero(atualizado.getNumero());
+            repository.save(contato);
+            return ResponseEntity.ok(contato);
+        })
+        .orElse(ResponseEntity.notFound().build());
 }
+
+
+}
+

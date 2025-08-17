@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contatos</title>
+  </head>
+  <body>
+    <h1>Contatos Cadastrados</h1>
+    <ul id="contatoList"></ul>
+
+    <script>
+      const apiUrl = "http://localhost:8080/contatos/ver";
+
+      function loadContatos() {
+        fetch(apiUrl)
+          .then((res) => res.json())
+          .then((data) => {
+            const list = document.getElementById("contatoList");
+            list.innerHTML = "";
+
+            data.forEach((contato) => {
+              const li = document.createElement("li");
+              li.textContent = `Nome: ${contato.nome}, Empresa: ${contato.empresa}, Cargo: ${contato.cargo}, Email: ${contato.email}`;
+
+              const deleteBtn = document.createElement("button");
+              deleteBtn.textContent = "Deletar";
+              deleteBtn.onclick = () => deleteContato(contato.id);
+
+              const editBtn = document.createElement("button");
+              editBtn.textContent = "Editar";
+              editBtn.onclick = () => {
+                localStorage.setItem(
+                  "contatoEditando",
+                  JSON.stringify(contato)
+                );
+                location.href = "cadastro.html";
+              };
+
+              li.appendChild(editBtn);
+              li.appendChild(deleteBtn);
+              list.appendChild(li);
+            });
+          });
+      }
+
+      function deleteContato(id) {
+        fetch(`${apiUrl}/${id}`, {
+          method: "DELETE",
+        }).then(() => loadContatos());
+      }
+
+      loadContatos();
+    </script>
+  </body>
+</html>
