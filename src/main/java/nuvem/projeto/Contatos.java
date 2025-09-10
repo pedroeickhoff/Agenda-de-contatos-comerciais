@@ -26,19 +26,6 @@ public class Contatos {
 
     public Contatos() {}
 
-    public Contatos(String nome, String email, String cep, String empresa, String rua, String bairro, String numero, String cargo, String telefone) {
-        this.nome = nome;
-        this.email = email;
-        this.cep = cep;
-        this.empresa = empresa;
-        this.rua = rua;
-        this.bairro = bairro;
-        this.numero = numero;
-        this.cargo = cargo;
-        this.telefone = telefone;
-    }
-
-
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
