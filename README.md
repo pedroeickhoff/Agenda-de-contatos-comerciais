@@ -33,7 +33,7 @@ Arquivos que precisam ser editados:
 - contatos.html
 - editar.html
 
-## Exemplo de application.properties (VM2)
+## Trechos que devem mudar na application.properties (VM2)
 spring.application.name=suadatabase
 
 spring.datasource.url=jdbc:mysql://IPdaVM3/projeto?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
@@ -41,12 +41,6 @@ spring.datasource.url=jdbc:mysql://IPdaVM3/projeto?useSSL=false&serverTimezone=U
 spring.datasource.username=SeuUsuário
 
 spring.datasource.password=SuaSenha
-
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
 ## Resumo do Fluxo
 - O usuário acessa via IP da VM1 (NAT).
