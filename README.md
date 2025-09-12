@@ -26,7 +26,7 @@ sudo systemctl restart nginx
 
 ## Ajuste dos Arquivos Front-end (VM2)
 Nos arquivos HTML da aplicação, substitua o IP no trecho:
-const apiUrl = "http://IPdaSuaVM1NAT/(resto do endereço)";
+const apiUrl = "http://IPdaSuaVM1NAT/(restodoendereço)";
 
 Arquivos que precisam ser editados:
 - cadastro.html
