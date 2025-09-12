@@ -19,19 +19,7 @@ Na VM2, descubra o IP executando:
 ip a
 
 Substitua o valor nas configurações do proxy reverso na VM1. Dessa forma, ao acessar o IP da VM1 (NAT), você será redirecionado para a aplicação que roda na VM2.
-
-Exemplo de configuração do Nginx (/etc/nginx/sites-available/default):
-server {
-    listen 80;
-    server_name _;
-    location / {
-        proxy_pass http://IPdaVM2:8080/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
+(instruções e configuração do nginx disponíveis na pasta VM1)
 
 Após editar, reinicie o nginx:
 sudo systemctl restart nginx
@@ -63,4 +51,4 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 - A VM2 se conecta ao banco de dados na VM3.
 
 ## Rode o código
-- utilize o comando ./mvnw spring-boot:run dentro da pasta do projeto da VM2 para processar a aplicação
+- Utilize o comando ./mvnw spring-boot:run dentro da pasta do projeto da VM2 para processar a aplicação
