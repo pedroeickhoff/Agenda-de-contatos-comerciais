@@ -39,7 +39,9 @@ spring.application.name=suadatabase
 spring.datasource.url=jdbc:mysql://IPdaVM3/projeto?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
 
 spring.datasource.username=SeuUsuário
+
 spring.datasource.password=SuaSenha
+
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 spring.jpa.hibernate.ddl-auto=update
