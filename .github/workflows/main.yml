@@ -33,5 +33,5 @@ jobs:
     - name: Rodar Testes (Unitários e Integração)
       run: mvn test
 
-    - name: Build da Imagem Docker (Opcional - Validação)
+    - name: Build da Imagem Docker
       run: docker build -t projeto3-img .
