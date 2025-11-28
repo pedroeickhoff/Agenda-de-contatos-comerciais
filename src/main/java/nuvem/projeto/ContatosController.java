@@ -20,7 +20,7 @@ public class ContatosController {
     @Autowired
     private ContatosRepository repository;
 
-    @PostMapping("/cadastro/cadastra")
+    @PostMapping("/cadastro/cadastrar")
     public void addContato(@RequestBody Contatos contato) {
         repository.save(contato);
     }
